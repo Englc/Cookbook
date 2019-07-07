@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Engl's cookbook</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .test {
+            color: green;
+        }
+
+        .test2 {
+            color: red;
+        }
+    </style>
+
+    <!-- Custom styles for this template -->
+    <link href="css/one-page-wonder.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Engl's cookbook</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="recipe.html">Rezepte</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Zutaten</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Grundlagen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Anrichten</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Gewürze</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section>
+        <div class="container">
+            <div id="dynamic" class="row align-items-center">
+
+                <a v-bind:href="url">{{ text }}</a>
+                <a :href="url">{{ revert }}</a>
+
+                <h1 v-on:click="number++">{{number}}</h1>
+                <h1 @click="number--">{{number}}</h1>
+
+                <form action="" @submit.prevent="number++">
+
+                    <div class="com-md-6">
+                        <input v-model="text" class="form-control" type="text">
+                        <button type="submit">Submit</button>
+                    </div>
+
+                </form>
+
+                <h1 :class="[error ? 'test2' : 'test']">styled</h1>
+                <h1 :class="[!error ? 'test2' : 'test']">styled</h1>
+
+                <button @click="doSomething"> asdf </button>
+
+                <h1 v-if="active">if</h1>
+                <h1 v-else-if="text === 'abc'">else if</h1>
+                <h1 v-else>else</h1>
+                <h1 v-if="!active">if</h1>
+                <h1 v-else-if="text === 'abc'">else if</h1>
+                <h1 v-else>else</h1>
+
+                <ul>
+                    <li v-for="post in posts" :key="post.id">{{post.title}}</li>
+                </ul>
+                <button-counter></button-counter>
+                <testtemplate></testtemplate>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-5 bg-light">
+        <div class="container">
+            <p class="m-0 text-center text-black">Copyright &copy; Clemens Engl 2017</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        Vue.component('button-counter', {
+            data: function () {
+                return {
+                    count: 0
+                }
+            },
+            template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+        });
+        Vue.component('testtemplate', {
+            data: function () {
+                return {
+                    posts: [
+                        { id: 1, title: "post1" },
+                        { id: 2, title: "post2" },
+                        { id: 3, title: "post3" },
+                        { id: 4, title: "post4" },
+                    ]
+                }
+            },
+            template: `
+                <ul>
+                    <post v-for='post in posts' :key='post.id'>{{post.title}}</post>
+                </ul>
+            `
+        });
+        Vue.component('post', {
+            template: `
+
+                <li><slot></slot></li>
+
+            `
+        });
+
+        var vm = new Vue({
+            el: '#dynamic',
+            data: {
+                number: 1,
+                error: true,
+                active: false,
+                text: 'abc',
+                url: 'https://www.google.de',
+                posts: [
+                    { id: 1, title: "post1" },
+                    { id: 2, title: "post2" },
+                    { id: 3, title: "post3" },
+                    { id: 4, title: "post4" },
+                ]
+            },
+            methods: {
+                doSomething: function () {
+                    console.log(this.text);
+                }
+
+            },
+            computed: {
+                revert: function () {
+                    return this.text.split('').reverse('').join('');
+                }
+            },
+            watch: {
+                text: function (newValue) {
+                    console.log("alert!!" + newValue);
+                }
+            }
+        })
+    </script>
+
+
+</body>
+
+</html>
